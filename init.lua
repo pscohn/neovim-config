@@ -36,7 +36,8 @@ require("lazy").setup({
         {
             'nvim-telescope/telescope.nvim', tag = '0.1.8',
             dependencies = { 'nvim-lua/plenary.nvim' }
-        }
+        },
+        { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' }
     },
     -- Configure any other settings here. See the documentation for more details.
     -- colorscheme that will be used when installing plugins.
@@ -52,8 +53,23 @@ vim.o.shiftwidth = 4 -- Number of spaces inserted when indenting
 vim.o.rnu = true -- relative line numbers
 
 
+local telescope = require('telescope')
 local builtin = require('telescope.builtin')
 vim.keymap.set('n', '<leader>f', builtin.find_files, { desc = 'Telescope find files' })
+telescope.setup({
+	defaults = {
+        sorting_strategy = "ascending",
+		path_display = {
+			"truncate",
+		},
+        layout_config = {
+            prompt_position = "top"
+        }
+	}
+})
+-- To get fzf loaded and working with telescope, you need to call
+-- load_extension, somewhere after setup function:
+require('telescope').load_extension('fzf')
 
 
 
